@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0 !important;
+}
+
+.ant-modal-header {
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.ant-modal-content {
+  border-radius: 8px !important;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: #e6f7ff !important;
+}
+
+.szh-menu__item:hover {
+  background: #fff4e6 !important;
+}
+
+.szh-menu__divider {
+  margin: 0 !important;
+}
+
+.szh-menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#sortSelect {
+  padding-top: 0 !important;
+  top: 20px !important;
+  left: -60px !important;
+}
+
+.szh-menu__item--type-radio::before {
+  content: '' !important;
+}
+
+.szh-menu__item--checked {
+  background: #f0f2f5;
+}
+
+.szh-menu__header,
+.szh-menu__item {
+  width: 185px !important;
+  padding: 8px 12px !important;
+}
+
+.ant-modal-confirm-title {
+  font-family: 'Noto Sans KR';
+  font-weight: bold !important;
+  font-size: 16px !important;
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR Light';
+  font-weight: 300;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
+  /* src: local('Noto Sans KR Light'),
+    url(./fonts/NotoSansKR/NotoSansKR-Light.ttf) format('truetype'); */
+}
+
+@font-face {
+  font-family: 'Noto Sans KR Thin';
+  font-weight: 100;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
+  /* src: local('Noto Sans KR Thin'),
+    url(./fonts/NotoSansKR/NotoSansKR-Thin.ttf) format('truetype'); */
+}
+
+@font-face {
+  font-family: 'Noto Sans KR Medium';
+  font-weight: 500;
+  /* src: local('Noto Sans KR Medium'),
+    url(./fonts/NotoSansKR/NotoSansKR-Medium.ttf) format('truetype'); */
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR Bold';
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),
+    url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+  /* src: local('Noto Sans KR Bold'),
+    url(./fonts/NotoSansKR/NotoSansKR-Bold.ttf) format('truetype'); */
+}
+
+@font-face {
+  font-family: 'Noto Sans KR Black';
+  font-weight: 900;
+  src: local('Noto Sans KR Black'),
+    url(./fonts/NotoSansKR/NotoSansKR-Black.ttf) format('truetype');
+}
