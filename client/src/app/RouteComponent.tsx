@@ -1,32 +1,34 @@
-import App from './App';
-import { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
-
-const Main = lazy(() => import('@/pages/MainPage/MainPage'));
-const SignIn = lazy(() => import('@/pages/SignInPage/SignInPage'));
-const SignUp = lazy(() => import('@/pages/SignUpPage/SignUpPage'));
-const User = lazy(() => import('@/pages/UserPage/UserPage'));
+import App from "./App";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { createBrowserRouter } from "react-router-dom";
+import { MainPage, SignInPage, SignUpPage, UserPage } from "@/pages";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
-        path: '',
-        element: <Main />,
+        path: "login",
+        element: <SignInPage />,
       },
       {
-        path: 'signUp',
-        element: <SignUp />,
+        path: "auth",
+        element: <SignUpPage />,
       },
       {
-        path: 'signIn',
-        element: <SignIn />,
-      },
-      {
-        path: 'user',
-        element: <User />,
+        path: "/",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/",
+            element: <MainPage />,
+          },
+          {
+            path: "user",
+            element: <UserPage />,
+          },
+        ],
       },
     ],
   },

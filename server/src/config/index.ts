@@ -6,4 +6,5 @@ if (process.env.NODE_ENV !== undefined) {
   config({ path: `.env.${process.env.NODE_ENV || "local"}` });
 }
 
-export const { NODE_ENV, PORT, MONGO_URI, SECRET_KEY } = process.env;
+export const { NODE_ENV, PORT, MONGO_URI, SECRET_KEY, STATIC_RESOURCE_DIR } =
+  process.env;

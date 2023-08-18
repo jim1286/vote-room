@@ -6,8 +6,8 @@ const responseHandler =
   (asyncFn: any) => async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await asyncFn(req, res, next);
-
       const response = new HttpResponse(instanceToPlain(result));
+
       return res.status(200).json(instanceToPlain(response));
     } catch (error) {
       console.log(error);

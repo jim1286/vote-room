@@ -1,5 +1,3 @@
-import { UploadChangeParam } from 'antd/es/upload';
-
 export interface JwtTokens {
   accessToken: string;
   refreshToken: string;
@@ -14,5 +12,5 @@ export interface SignUpInfo {
   name: string;
   userId: string;
   password: string;
-  profileImage: UploadChangeParam;
+  image?: any;
 }

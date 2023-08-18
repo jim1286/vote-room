@@ -1,18 +1,11 @@
-import { UserRepository } from "@/repository";
-import { JwtUtil } from "@/util";
+import { UserPayload } from "@/interface";
+import { AuthService } from "@/service";
 import { RequestHandler } from "express";
 
-export const signIn: RequestHandler = (req, res) => {
-  const userId = req.body.userId;
+export const signIn: RequestHandler = async (req, res) => {
+  const params: UserPayload = res.locals.payload;
 
-  if (!UserRepository.isExist(userId)) {
-    return;
-  }
+  const token = await AuthService.signIn(params.id);
 
-  const token = JwtUtil.generateJwtTokens(userId);
-
-  res.json({
-    accessToken: token.accessToken,
-    refreshToken: token.refreshToken,
-  });
+  return token;
 };

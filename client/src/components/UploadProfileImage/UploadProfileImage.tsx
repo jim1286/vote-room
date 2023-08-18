@@ -1,32 +1,34 @@
-import { Modal, Upload, UploadFile, UploadProps } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { UploadContainer } from './styles';
-import { PlusOutlined } from '@ant-design/icons';
-import { RcFile } from 'antd/es/upload';
-import { getBase64 } from '@/utils';
+import { Modal, Upload, UploadFile, UploadProps } from "antd";
+import React, { useEffect, useState } from "react";
+import { UploadContainer } from "./styles";
+import { PlusOutlined } from "@ant-design/icons";
+import { RcFile } from "antd/es/upload";
+import { getBase64 } from "@/utils";
 
 interface UploadProfileImageProps {
-  onRefetchProfileImage: (profileImage: string) => void;
+  onRefetchProfile: (profileImage: UploadFile | undefined) => void;
 }
 
 const UploadProfileImage: React.FC<UploadProfileImageProps> = ({
-  onRefetchProfileImage,
+  onRefetchProfile,
 }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [file, setFile] = useState<UploadFile>();
 
   useEffect(() => {
-    profileImageToBase64();
-  }, [fileList]);
+    refetchProfile();
+  }, [file]);
 
   const handlePreviewCancel = () => {
     setPreviewOpen(false);
   };
 
-  const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+  const handleChange: UploadProps["onChange"] = async ({
+    fileList: newFileList,
+  }) => {
+    setFile(newFileList[0]);
   };
 
   const handlePreview = async (file: UploadFile) => {
@@ -38,20 +40,19 @@ const UploadProfileImage: React.FC<UploadProfileImageProps> = ({
     setPreviewOpen(true);
 
     if (file.url) {
-      setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+      setPreviewTitle(
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+      );
     }
   };
 
-  const profileImageToBase64 = async () => {
-    if (fileList.length > 0) {
-      onRefetchProfileImage(await getBase64(fileList[0].originFileObj as RcFile));
+  const refetchProfile = async () => {
+    if (!file) {
+      onRefetchProfile(undefined);
       return;
     }
 
-    if (fileList.length === 0) {
-      onRefetchProfileImage('');
-      return;
-    }
+    onRefetchProfile(file);
   };
 
   return (
@@ -59,7 +60,6 @@ const UploadProfileImage: React.FC<UploadProfileImageProps> = ({
       <Upload
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         listType="picture-circle"
-        fileList={fileList}
         maxCount={1}
         onPreview={handlePreview}
         onChange={handleChange}
@@ -72,7 +72,7 @@ const UploadProfileImage: React.FC<UploadProfileImageProps> = ({
         footer={null}
         onCancel={handlePreviewCancel}
       >
-        <img alt="profileImage" style={{ width: '100%' }} src={previewImage} />
+        <img alt="profileImage" style={{ width: "100%" }} src={previewImage} />
       </Modal>
     </UploadContainer>
   );

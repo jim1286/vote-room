@@ -1,6 +1,6 @@
-import { ApiResponse } from '@/interface';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { TokenService } from '.';
+import { ApiResponse } from "@/interface";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { TokenService } from ".";
 
 const responseSuccessHandler = (
   response: AxiosResponse<any>
@@ -14,10 +14,7 @@ const responseErrorHandler = async (error: any): Promise<any> => {
   return Promise.reject(response);
 };
 
-const { VITE_BASE_URL } = import.meta.env;
-
 const api = axios.create({
-  baseURL: VITE_BASE_URL,
   timeout: 1000 * 15,
 });
 
@@ -35,9 +32,9 @@ export const get = async (
     configs.timeout = timeout;
   }
 
-  const res: ApiResponse = await api.get(url, configs);
+  const response: ApiResponse = await api.get(url, configs);
 
-  return res;
+  return response;
 };
 
 export const post = async (
@@ -59,9 +56,9 @@ export const post = async (
     });
   }
 
-  const res: ApiResponse = await api.post(url, data, configs);
+  const response: ApiResponse = await api.post(url, data, configs);
 
-  return res;
+  return response;
 };
 
 export const put = async (
@@ -100,13 +97,13 @@ export const deleteMethod = async (
 
 export function serialize(obj: any) {
   const str: string =
-    '?' +
+    "?" +
     Object.keys(obj)
       .reduce(function (a: any, k) {
-        a.push(k + '=' + encodeURIComponent(obj[k]));
+        a.push(k + "=" + encodeURIComponent(obj[k]));
         return a;
       }, [])
-      .join('&');
+      .join("&");
   return str;
 }
 

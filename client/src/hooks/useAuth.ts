@@ -1,15 +1,13 @@
-import { removeUser } from '@/flux';
-import { SignInInfo } from '@/interface';
-import { AuthService, TokenService } from '@/service';
-import { useDispatch } from 'react-redux';
+import { removeUser } from "@/flux";
+import { SignInInfo } from "@/interface";
+import { AuthService, TokenService, UserService } from "@/service";
+import { useDispatch } from "react-redux";
 
 const useAuth = () => {
   const dispatch = useDispatch();
 
-  const initAuth = async () => {};
-
   const getUser = async () => {
-    const user = await AuthService.getUser();
+    const user = await UserService.getUser();
 
     return user;
   };
@@ -25,7 +23,7 @@ const useAuth = () => {
     dispatch(removeUser());
   };
 
-  return { initAuth, signIn, signOut, getUser };
+  return { signIn, signOut, getUser };
 };
 
 export default useAuth;
