@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { Button } from "antd";
+import styled from "styled-components";
 
 export const MainContainer = styled.div`
   height: 100vh;
@@ -14,4 +15,11 @@ export const MainContainer = styled.div`
     #c4e0e5,
     #4ca1af
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+`;
+
+export const LogoutButton = styled(Button)`
+  position: absolute;
+  right: 80px;
+  top: 25px;
+  height: 30px;
 `;

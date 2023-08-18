@@ -15,6 +15,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!token) {
       signOut();
+      navigate("/login");
 
       return;
     }
