@@ -1,5 +1,6 @@
 import { STATIC_RESOURCE_DIR } from "@/config";
 import { Id } from "@/interface";
+import { UserRepository } from "@/repository";
 import fs from "fs";
 import path from "path";
 
@@ -15,7 +16,7 @@ export const createFolder = (dir: string) => {
 };
 
 export const createImage = async (
-  userId: Id,
+  id: Id,
   file: Express.Multer.File
 ): Promise<string> => {
   if (!file) {
@@ -23,7 +24,7 @@ export const createImage = async (
   }
 
   const resourceDir = `${path.resolve("./")}${STATIC_RESOURCE_DIR}`;
-  const userDir = `${resourceDir}/${userId}`;
+  const userDir = `${resourceDir}/${id}`;
   const oldPath = `${resourceDir}/${file.filename}`;
   const newPath = `${userDir}/${file.filename}`;
 

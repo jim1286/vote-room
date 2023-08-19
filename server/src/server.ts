@@ -1,15 +1,17 @@
 import express, { json, urlencoded } from "express";
 import router from "./router";
-import { connectToDB } from "@/db";
-import { PORT } from "@/config";
 import passport from "passport";
 import cors from "cors";
+import path from "path";
+import { connectToDB } from "@/db";
+import { PORT } from "@/config";
 import { jwtStrategy, localStrategy } from "@/util";
 
 const app = express();
 
 app.use(json());
 app.use(urlencoded({ extended: false }));
+app.use("/public", express.static("public"));
 app.use(passport.initialize());
 app.use(router);
 

@@ -1,11 +1,35 @@
 import { User } from "@/models";
-import { CreateUserRequest } from "@/dto";
+import { CreateUserRequest, UpdateUserRequest } from "@/dto";
 import { Id } from "@/interface";
+import bcrypt from "bcrypt";
 
 export const create = async (params: CreateUserRequest) => {
   const doc = await User.create(params);
 
   return doc;
+};
+
+export const update = async (params: UpdateUserRequest) => {
+  const doc = await User.findOne({ userId: params.originUserId }).exec();
+
+  if (params.name && doc.name !== params.name) {
+    doc.name = params.name;
+  }
+
+  if (params.userId && doc.userId !== params.userId) {
+    doc.userId = params.userId;
+  }
+
+  if (params.password && !bcrypt.compareSync(params.password, doc.password)) {
+    const hashed = bcrypt.hashSync(params.password, 10);
+    doc.password = hashed;
+  }
+
+  return doc;
+};
+
+export const deleteUserByUserId = async (userId: string) => {
+  await User.deleteOne({ userId });
 };
 
 export const findById = async (id: Id) => {

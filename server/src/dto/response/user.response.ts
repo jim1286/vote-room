@@ -6,4 +6,7 @@ export class UserResponse {
 
   @Expose()
   name: string;
+
+  @Expose()
+  profileImagePath: string;
 }

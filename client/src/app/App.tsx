@@ -20,10 +20,10 @@ const App: React.FC = () => {
       return;
     }
 
-    checkToken();
+    autoLogin();
   }, []);
 
-  const checkToken = async () => {
+  const autoLogin = async () => {
     try {
       const user = await getUser();
 

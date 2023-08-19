@@ -1,11 +1,13 @@
-import { UploadChangeParam } from "antd/es/upload";
-
 export interface User {
   name: string;
   userId: string;
+  profileImagePath: string;
 }
 
 export interface UpdateUserInfo {
+  originUserId: string;
+  name: string;
+  userId: string;
   password: string;
-  profileImage: UploadChangeParam;
+  image?: any;
 }

@@ -10,23 +10,6 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 
-export const jwtStrategy = new JwtStrategy(
-  jwtOptions,
-  async (payload, done) => {
-    if (!payload || !payload.id) {
-      return done(null, undefined);
-    }
-
-    try {
-      const user = await UserRepository.findById(payload.id);
-
-      return done(null, user);
-    } catch (err) {
-      return done(err, undefined);
-    }
-  }
-);
-
 export const localStrategy = new LocalStrategy(
   {
     usernameField: "userId",
@@ -40,8 +23,7 @@ export const localStrategy = new LocalStrategy(
         return done(new UnauthorizedError());
       }
 
-      const hashed = await bcrypt.hash(password, 10);
-      const match = await bcrypt.compare(password, hashed);
+      const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
         return done(new UnauthorizedError());
@@ -50,6 +32,23 @@ export const localStrategy = new LocalStrategy(
       return done(null, user);
     } catch (err) {
       return done(err);
+    }
+  }
+);
+
+export const jwtStrategy = new JwtStrategy(
+  jwtOptions,
+  async (payload, done) => {
+    if (!payload || !payload.id) {
+      return done(null, undefined);
+    }
+
+    try {
+      const user = await UserRepository.findById(payload.id);
+
+      return done(null, user);
+    } catch (err) {
+      return done(err, undefined);
     }
   }
 );

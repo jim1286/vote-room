@@ -1,4 +1,4 @@
-import { CreateUserRequest, UserResponse } from "@/dto";
+import { CreateUserRequest, UpdateUserRequest, UserResponse } from "@/dto";
 import { UserPayload } from "@/interface";
 import { UserRepository } from "@/repository";
 import { FileService, UserService } from "@/service";
@@ -19,10 +19,33 @@ export const createUser: RequestHandler = async (req, res) => {
   return response;
 };
 
+export const updateUser: RequestHandler = async (req, res) => {
+  const params: UpdateUserRequest = req.body;
+  const user = await UserService.updateUser(params);
+  const file = req.file as Express.Multer.File;
+
+  if (file) {
+    user.profileImagePath = await FileService.createImage(user.id, file);
+  }
+
+  await user.save();
+
+  const response = CTUtil.toCls(UserResponse, user);
+
+  return response;
+};
+
 export const getUser: RequestHandler = async (req, res) => {
   const payload: UserPayload = res.locals.payload;
   const user = await UserRepository.findById(payload.id);
   const response = CTUtil.toCls(UserResponse, user);
 
   return response;
+};
+
+export const deleteUser: RequestHandler = async (req, res) => {
+  const payload: UserPayload = res.locals.payload;
+  const user = await UserRepository.findById(payload.id);
+
+  await UserService.deleteUser(user.userId);
 };

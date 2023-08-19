@@ -1,11 +1,12 @@
 import { HttpResponse } from "@/dto";
 import { instanceToPlain } from "class-transformer";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
 const responseHandler =
-  (asyncFn: any) => async (req: Request, res: Response, next: NextFunction) => {
+  (handler: RequestHandler) =>
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await asyncFn(req, res, next);
+      const result = await handler(req, res, next);
       const response = new HttpResponse(instanceToPlain(result));
 
       return res.status(200).json(instanceToPlain(response));

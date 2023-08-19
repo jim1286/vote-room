@@ -10,3 +10,17 @@ export class CreateUserRequest {
   @IsString()
   password: string;
 }
+
+export class UpdateUserRequest {
+  @IsString()
+  originUserId: string;
+
+  @IsString()
+  userId: string;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  password: string;
+}

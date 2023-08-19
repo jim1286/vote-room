@@ -64,13 +64,20 @@ export const post = async (
 export const put = async (
   url: string,
   data: any,
-  secure: boolean = true,
+  customHeader: any = {},
+  secure = true,
   timeout?: number
 ): Promise<ApiResponse> => {
-  const configs: AxiosRequestConfig = await getConfig(secure);
+  const configs: any = await getConfig(secure);
 
   if (timeout) {
     configs.timeout = timeout;
+  }
+
+  if (customHeader) {
+    Object.keys(customHeader).forEach((key) => {
+      configs[key] = customHeader[key];
+    });
   }
 
   const response: ApiResponse = await api.put(url, data, configs);

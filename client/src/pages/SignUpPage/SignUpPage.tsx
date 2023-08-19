@@ -85,7 +85,7 @@ const SignUpPage: React.FC = () => {
           handleFinish({
             name: input.name,
             userId: input.userId,
-            password: input.userId,
+            password: input.password,
             image: input.profileImagePath,
           })
         }
