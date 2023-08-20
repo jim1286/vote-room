@@ -1,11 +1,13 @@
-import { CreateUserRequest, UpdateUserRequest, UserResponse } from "@/dto";
+import { CreateUserRequest, UpdateUserRequest } from "@/dto";
 import { UserPayload } from "@/interface";
 import { UserRepository } from "@/repository";
 import { FileService, UserService } from "@/service";
-import { CTUtil } from "@/util";
-import { RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
 
-export const createUser: RequestHandler = async (req, res) => {
+export const createUser: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const params: CreateUserRequest = req.body;
   const user = await UserService.createUser(params);
   const file = req.file as Express.Multer.File;
@@ -14,12 +16,13 @@ export const createUser: RequestHandler = async (req, res) => {
 
   await user.save();
 
-  const response = CTUtil.toCls(UserResponse, user);
-
-  return response;
+  return user;
 };
 
-export const updateUser: RequestHandler = async (req, res) => {
+export const updateUser: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
   const params: UpdateUserRequest = req.body;
   const user = await UserService.updateUser(params);
   const file = req.file as Express.Multer.File;
@@ -30,22 +33,28 @@ export const updateUser: RequestHandler = async (req, res) => {
 
   await user.save();
 
-  const response = CTUtil.toCls(UserResponse, user);
-
-  return response;
+  return "Update User";
 };
 
-export const getUser: RequestHandler = async (req, res) => {
-  const payload: UserPayload = res.locals.payload;
-  const user = await UserRepository.findById(payload.id);
-  const response = CTUtil.toCls(UserResponse, user);
-
-  return response;
-};
-
-export const deleteUser: RequestHandler = async (req, res) => {
+export const getUser: RequestHandler = async (req: Request, res: Response) => {
   const payload: UserPayload = res.locals.payload;
   const user = await UserRepository.findById(payload.id);
 
-  await UserService.deleteUser(user.userId);
+  return user;
+};
+
+export const deleteUser: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const payload: UserPayload = res.locals.payload;
+  const user = await UserRepository.findById(payload.id);
+
+  const result = await UserService.deleteUser(user.userId);
+
+  if (result.deletedCount === 0) {
+    throw new Error("Delete Fail");
+  }
+
+  return "Delete User";
 };

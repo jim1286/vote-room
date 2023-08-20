@@ -2,7 +2,7 @@ import { UserController } from "@/controller";
 import { authorize, upload, validate } from "@/middleware";
 import { CreateUserRequest, UpdateUserRequest } from "@/dto";
 import { Router } from "express";
-import { ResponseHandler } from "./handler";
+import { ResponseHandler } from "@/handler";
 
 const router = Router();
 

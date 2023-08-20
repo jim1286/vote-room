@@ -1,6 +1,7 @@
 import express from "express";
 import authRouter from "./auth.route";
 import userRouter from "./user.route";
+import voteRouter from "./vote.route";
 
 const router = express.Router();
 
@@ -9,5 +10,6 @@ router.use("/healthcheck", (req, res) => {
 });
 router.use("/auth", authRouter);
 router.use("/user", userRouter);
+router.use("/vote", voteRouter);
 
 export default router;

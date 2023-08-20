@@ -1,7 +1,7 @@
 import { AuthController } from "@/controller";
 import { authenticateLocal } from "@/middleware";
 import { Router } from "express";
-import { ResponseHandler } from "./handler";
+import { ResponseHandler } from "@/handler";
 
 const router = Router();
 

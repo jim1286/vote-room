@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Avatar, Button, Card, Divider, Progress, Tooltip } from 'antd';
+import React, { useState } from "react";
+import { Avatar, Button, Card, Divider, Tooltip, notification } from "antd";
 import {
   CardBody,
   CardFooter,
@@ -7,25 +7,78 @@ import {
   CardText,
   Space,
   VoteButton,
-  VoteProgress,
-} from './styles';
-import { PlusOutlined } from '@ant-design/icons';
-import { AddOptionModal } from './components';
-import { BM } from '@/theme';
-import { AddVoteOption } from '@/interface';
+} from "./styles";
+import { PlusOutlined } from "@ant-design/icons";
+import { AddOptionModal, OptionComponent } from "./components";
+import { BM, BR } from "@/theme";
+import { CreateOptionRequest, DeleteVoteRequest, Vote } from "@/interface";
+import { ImageService, VoteService } from "@/service";
+import { nanoid } from "@reduxjs/toolkit";
+import { useUserSelector } from "@/flux";
 
 const { Meta } = Card;
 
-const VoteCard: React.FC = () => {
+interface VoteCardProps {
+  vote: Vote;
+  onFetch: () => void;
+}
+
+const VoteCard: React.FC<VoteCardProps> = ({ vote, onFetch }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const user = useUserSelector();
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = (values: AddVoteOption) => {
-    console.log(values);
-    setIsModalOpen(false);
+  const handleOk = async (values: string) => {
+    try {
+      const params: CreateOptionRequest = {
+        voteTitle: vote.title,
+        optionTitle: values,
+      };
+
+      await VoteService.createOption(params);
+
+      notification.success({
+        message: <BR>{`${values} 추가`}</BR>,
+        placement: "bottomRight",
+      });
+
+      setIsModalOpen(false);
+      onFetch();
+    } catch (error) {
+      notification.error({
+        message: <BR>{`생성 실패`}</BR>,
+        placement: "bottomRight",
+      });
+
+      console.log(error);
+    }
+  };
+
+  const handleFinishVote = async () => {
+    try {
+      const params: DeleteVoteRequest = {
+        voteTitle: vote.title,
+        userId: user?.userId as string,
+      };
+
+      await VoteService.deleteVote(params);
+
+      notification.success({
+        message: <BR>{`삭제 성공`}</BR>,
+        placement: "bottomRight",
+      });
+      onFetch();
+    } catch (error) {
+      notification.error({
+        message: <BR>{`삭제 실패`}</BR>,
+        placement: "bottomRight",
+      });
+
+      console.log(error);
+    }
   };
 
   const handleCancel = () => {
@@ -35,47 +88,33 @@ const VoteCard: React.FC = () => {
   return (
     <Card
       bodyStyle={{
-        width: '400px',
-        height: '500px',
-        backgroundColor: 'ivory',
+        width: "400px",
+        height: "500px",
+        backgroundColor: "ivory",
       }}
     >
       <CardHeader>
         <Meta
-          avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
-          title="Card title"
+          avatar={<Avatar src={ImageService.getImage(vote.profileImagePath)} />}
+          title={vote.title}
         />
       </CardHeader>
       <Divider />
       <CardText>
-        <BM>{`점심 메뉴`}</BM>
+        <BM>{`설명 : ${vote.description}`}</BM>
+        <BM>{`총 : ${vote.totalNumber}`}</BM>
       </CardText>
       <Divider />
       <CardBody>
-        <Button size="small" style={{ border: 'none' }}>
-          <BM>{`옵션`}</BM>
-        </Button>
-        <VoteProgress>
-          <Progress percent={50} showInfo={false} />
-          <Space />
-          <Avatar.Group
-            maxCount={1}
-            maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-          >
-            <Tooltip title="이름" placement="top">
-              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-            </Tooltip>
-            <Tooltip title="이름" placement="top">
-              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-            </Tooltip>
-            <Tooltip title="이름" placement="top">
-              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-            </Tooltip>
-            <Tooltip title="이름" placement="top">
-              <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=2" />
-            </Tooltip>
-          </Avatar.Group>
-        </VoteProgress>
+        {vote.optionList?.map((option) => (
+          <OptionComponent
+            key={nanoid()}
+            voteTitle={vote.title}
+            totalNumber={vote.totalNumber}
+            option={option}
+            onFetch={onFetch}
+          />
+        ))}
       </CardBody>
       <Divider />
       <CardFooter>
@@ -94,7 +133,7 @@ const VoteCard: React.FC = () => {
             />
           </Tooltip>
           <Space />
-          <Button size="large">{`종료`}</Button>
+          <Button size="large" onClick={handleFinishVote}>{`종료`}</Button>
         </VoteButton>
       </CardFooter>
     </Card>

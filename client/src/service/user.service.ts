@@ -26,7 +26,7 @@ export const signUp = async (
     "Content-Type": "multipart/form-data; charset=utf-8",
   });
 
-  return response.data.data;
+  return response.data;
 };
 
 export const getUser = async (): Promise<GetUserResponse> => {
@@ -40,7 +40,7 @@ export const deleteUser = async () => {
     `${USER_BASE_URI}/delete`
   );
 
-  return response.data.data;
+  return response.data;
 };
 
 export const updateUser = async (params: UpdateUserInfo) => {
@@ -63,5 +63,5 @@ export const updateUser = async (params: UpdateUserInfo) => {
     }
   );
 
-  return response.data.data;
+  return response.data;
 };

@@ -12,16 +12,11 @@ import { useAuth } from "@/hooks";
 
 const UserPage: React.FC = () => {
   const user = useUserSelector();
-
-  if (!user) {
-    return;
-  }
-
   const navigate = useNavigate();
   const { signOut } = useAuth();
   const [file, setFile] = useState<UploadFile | undefined>(undefined);
-  const [name, setName] = useState<string>(user.name);
-  const [userId, setUserId] = useState<string>(user.userId);
+  const [name, setName] = useState<string>(user?.name as string);
+  const [userId, setUserId] = useState<string>(user?.userId as string);
   const [password, setPassword] = useState<string>("");
 
   const refetchProfile = (file: UploadFile | undefined) => {
@@ -31,7 +26,7 @@ const UserPage: React.FC = () => {
   const handleFinish = async () => {
     try {
       const params = {
-        originUserId: user.userId,
+        originUserId: user?.userId as string,
         name: name,
         userId: userId,
         password: password,

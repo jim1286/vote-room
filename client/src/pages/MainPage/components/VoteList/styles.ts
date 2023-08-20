@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const VoteListContainer = styled.div`
   width: 100%;
@@ -26,6 +26,6 @@ export const VoteContainer = styled.div`
   }
 `;
 
-export const Vote = styled.div`
+export const VoteWrap = styled.div`
   margin: 20px;
 `;
