@@ -2,7 +2,6 @@ import express, { json, urlencoded } from "express";
 import router from "./router";
 import passport from "passport";
 import cors from "cors";
-import path from "path";
 import { connectToDB } from "@/db";
 import { PORT } from "@/config";
 import { jwtStrategy, localStrategy } from "@/util";

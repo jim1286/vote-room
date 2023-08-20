@@ -29,7 +29,13 @@ export const update = async (params: UpdateUserRequest) => {
 };
 
 export const deleteUserByUserId = async (userId: string) => {
-  await User.deleteOne({ userId });
+  const result = await User.deleteOne({ userId });
+
+  if (result.deletedCount === 0) {
+    throw new Error("Delete Fail");
+  }
+
+  return result;
 };
 
 export const findById = async (id: Id) => {

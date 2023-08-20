@@ -1,6 +1,5 @@
 import { STATIC_RESOURCE_DIR } from "@/config";
 import { Id } from "@/interface";
-import { UserRepository } from "@/repository";
 import fs from "fs";
 import path from "path";
 

@@ -1,1 +1,2 @@
-export * from './AddOptionModal';
+export * from "./AddOptionModal";
+export * from "./OptionComponent";

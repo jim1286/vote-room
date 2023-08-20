@@ -1,5 +1,4 @@
 import { CreateUserRequest, UpdateUserRequest } from "@/dto";
-import { Id } from "@/interface";
 import { UserRepository } from "@/repository";
 import bcrypt from "bcrypt";
 
@@ -21,5 +20,7 @@ export const updateUser = async (params: UpdateUserRequest) => {
 };
 
 export const deleteUser = async (userId: string) => {
-  await UserRepository.deleteUserByUserId(userId);
+  const result = await UserRepository.deleteUserByUserId(userId);
+
+  return result;
 };

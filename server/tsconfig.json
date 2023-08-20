@@ -31,5 +31,5 @@
     "require": ["tsconfig-paths/register"]
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env"],
-  "exclude": ["node_modules", "src/http", "src/logs", "tests"]
+  "exclude": ["node_modules", "src/http", "src/dto", "src/logs", "tests"]
 }

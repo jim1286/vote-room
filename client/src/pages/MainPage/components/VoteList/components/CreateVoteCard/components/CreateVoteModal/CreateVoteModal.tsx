@@ -1,24 +1,24 @@
-import React from 'react';
-import dayjs from 'dayjs';
-import { Modal, Form, Input, DatePicker, Switch } from 'antd';
-import { CreateRoomInfo } from '@/interface';
-import type { RangePickerProps } from 'antd/es/date-picker';
+import React from "react";
+import { Modal, Form, Input, Switch } from "antd";
+import { CreateVoteRequest } from "@/interface";
+import { useUserSelector } from "@/flux";
 
 interface CreateVoteModalProps {
   isOpen: boolean;
-  onOk: (values: CreateRoomInfo) => void;
+  onOk: (values: CreateVoteRequest) => void;
   onCancel: () => void;
 }
 
-const CreateVoteModal: React.FC<CreateVoteModalProps> = ({ isOpen, onOk, onCancel }) => {
+const CreateVoteModal: React.FC<CreateVoteModalProps> = ({
+  isOpen,
+  onOk,
+  onCancel,
+}) => {
   const [form] = Form.useForm();
+  const user = useUserSelector();
 
   const handleCancel = () => {
     onCancel();
-  };
-
-  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-    return current.add(1, 'day') && current.add(1, 'day') < dayjs().endOf('day');
   };
 
   return (
@@ -28,12 +28,16 @@ const CreateVoteModal: React.FC<CreateVoteModalProps> = ({ isOpen, onOk, onCance
       onOk={() => {
         form
           .validateFields()
-          .then((values: CreateRoomInfo) => {
+          .then((values) => {
             form.resetFields();
-            onOk(values);
+            const params = {
+              userId: user?.userId,
+              ...values,
+            };
+            onOk(params);
           })
           .catch((info) => {
-            console.log('Validate Failed:', info);
+            console.log("Validate Failed:", info);
           });
       }}
       onCancel={handleCancel}
@@ -44,39 +48,28 @@ const CreateVoteModal: React.FC<CreateVoteModalProps> = ({ isOpen, onOk, onCance
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 18 }}
         layout="horizontal"
-        style={{ maxWidth: 600, margin: '30px' }}
+        style={{ maxWidth: 600, margin: "30px" }}
       >
         <Form.Item
           name="title"
           label="제목"
-          rules={[{ required: true, message: '제목을 입력해 주세요.' }]}
+          rules={[{ required: true, message: "제목을 입력해 주세요." }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name="description"
           label="설명"
-          rules={[{ required: true, message: '설명을 입력해 주세요.' }]}
+          rules={[{ required: true, message: "설명을 입력해 주세요." }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name="deletedAt"
-          label="종료 날짜"
-          rules={[{ required: true, message: '날짜를 입력해 주세요.' }]}
-        >
-          <DatePicker
-            format="YYYY-MM-DD HH:mm"
-            disabledDate={disabledDate}
-            showTime={{ defaultValue: dayjs('00:00', 'HH:mm') }}
-          />
-        </Form.Item>
-        <Form.Item
-          name="anonymous"
+          name="isAnonymous"
           label="익명"
           valuePropName="checked"
           initialValue={false}
-          rules={[{ required: true, message: '옵션을 선택해 주세요.' }]}
+          rules={[{ required: true, message: "옵션을 선택해 주세요." }]}
         >
           <Switch />
         </Form.Item>
