@@ -1,21 +1,21 @@
 import { ResponseCode } from "@/interface";
 
 export class Response {
-  public code: number;
-  public message: string;
-  public result?: any;
+  code: number;
+  message: string;
+  result?: any;
 
   constructor(responseCode: ResponseCode) {
     this.code = responseCode.code;
     this.message = responseCode.message;
   }
 
-  public data(data: any) {
+  data(data: any) {
     this.result = data;
     return this;
   }
 
-  public toJson() {
+  toJson() {
     return {
       code: this.code,
       message: this.message,

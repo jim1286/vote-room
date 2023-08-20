@@ -1,7 +1,8 @@
 import {
-  CreateOptionRequest,
   CreateVoteRequest,
   DeleteVoteRequest,
+  CreateOptionRequest,
+  DeleteOptionRequest,
   UpdateOptionRequest,
 } from "@/dto";
 import { User, Vote } from "@/models";
@@ -18,6 +19,10 @@ export const deleteVoteByTitle = async (params: DeleteVoteRequest) => {
     title: params.voteTitle,
   });
 
+  if (result.deletedCount === 0) {
+    throw new Error("Delete Fail");
+  }
+
   return result;
 };
 
@@ -26,7 +31,12 @@ export const createOptionByTitle = async (params: CreateOptionRequest) => {
     { title: params.voteTitle },
     {
       $push: {
-        optionList: { title: params.optionTitle, number: 0, userList: [] },
+        optionList: {
+          title: params.optionTitle,
+          number: 0,
+          userId: params.userId,
+          userList: [],
+        },
       },
     }
   ).exec();
@@ -35,34 +45,48 @@ export const createOptionByTitle = async (params: CreateOptionRequest) => {
 };
 
 export const updateOptionByUserId = async (params: UpdateOptionRequest) => {
-  const doc = await Vote.findOne({ title: params.voteTitle }).exec();
-  const user = await User.findOne({ userId: params.userId }).exec();
-  const option = doc.optionList.find(
+  const docVote = await Vote.findOne({ title: params.voteTitle }).exec();
+  const docUser = await User.findOne({ userId: params.userId }).exec();
+  const option = docVote.optionList.find(
     (option) => option.title === params.optionTitle
   );
 
   if (!option.userList.find((user) => user.userId === params.userId)) {
-    doc.totalNumber++;
+    docVote.totalNumber++;
     option.number++;
     option.userList.push({
-      userId: user.userId,
-      profileImagePath: user.profileImagePath,
+      userId: docUser.userId,
+      profileImagePath: docUser.profileImagePath,
     });
 
-    return doc;
+    return docVote;
   }
 
-  doc.totalNumber--;
+  docVote.totalNumber--;
   option.number--;
   option.userList = option.userList.filter(
-    (user) => user.userId !== user.userId
+    (user) => user.userId !== docUser.userId
   );
 
+  return docVote;
+};
+
+export const deleteOptionByTitle = async (params: DeleteOptionRequest) => {
+  const doc = await Vote.findOne({ title: params.voteTitle }).exec();
+  const index = doc.optionList.findIndex(
+    (option) => option.title === params.optionTitle
+  );
+
+  if (doc.optionList[index].userId !== params.userId) {
+    throw new Error();
+  }
+
+  doc.optionList.splice(index, 1);
   return doc;
 };
 
 export const findAll = async () => {
-  const docList = await Vote.find({}).exec();
+  const docList = await Vote.find().exec();
 
   return docList;
 };

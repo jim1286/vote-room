@@ -10,13 +10,14 @@ export interface DeleteVoteRequest {
   voteTitle: string;
 }
 
-export interface UpdateOptionRequest {
+export interface OptionRequest {
   userId: string;
   voteTitle: string;
   optionTitle: string;
 }
 
-export interface CreateOptionRequest {
-  voteTitle: string;
-  optionTitle: string;
-}
+export interface UpdateOptionRequest extends OptionRequest {}
+
+export interface CreateOptionRequest extends OptionRequest {}
+
+export interface DeleteOptionRequest extends OptionRequest {}

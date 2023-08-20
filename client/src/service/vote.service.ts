@@ -39,6 +39,15 @@ export const updateOption = async (params: UpdateOptionRequest) => {
   return response.data;
 };
 
+export const deleteOption = async (params: UpdateOptionRequest) => {
+  const response = await ApiService.put(
+    `${VOTE_BASE_URI}/option/delete`,
+    params
+  );
+
+  return response.data;
+};
+
 export const getVoteList = async (): Promise<GetVoteListResponse[]> => {
   const response = await ApiService.get(`${VOTE_BASE_URI}`);
 

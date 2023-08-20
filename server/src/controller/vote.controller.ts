@@ -1,7 +1,8 @@
 import {
-  CreateOptionRequest,
   CreateVoteRequest,
   DeleteVoteRequest,
+  CreateOptionRequest,
+  DeleteOptionRequest,
   UpdateOptionRequest,
 } from "@/dto";
 import { UserRepository } from "@/repository";
@@ -60,6 +61,18 @@ export const updateOption: RequestHandler = async (
   await vote.save();
 
   return "Update Option";
+};
+
+export const deleteOption: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const params: DeleteOptionRequest = req.body;
+  const vote = await VoteService.deleteOption(params);
+
+  await vote.save();
+
+  return "Delete Option";
 };
 
 export const getVoteList: RequestHandler = async (

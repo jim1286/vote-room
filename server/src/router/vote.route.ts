@@ -34,6 +34,13 @@ router.put(
   ResponseHandler(VoteController.updateOption)
 );
 
+router.put(
+  "/option/delete",
+  authorize,
+  validate(DeleteVoteRequest),
+  ResponseHandler(VoteController.deleteOption)
+);
+
 router.post(
   "/delete",
   validate(DeleteVoteRequest),

@@ -24,6 +24,7 @@ const VoteSchema = new Schema(
     },
     optionList: [
       {
+        userId: String,
         title: String,
         number: Number,
         userList: [

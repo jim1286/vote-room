@@ -22,15 +22,7 @@ export class DeleteVoteRequest {
   voteTitle: string;
 }
 
-export class CreateOptionRequest {
-  @IsString()
-  voteTitle: string;
-
-  @IsString()
-  optionTitle: string;
-}
-
-export class UpdateOptionRequest {
+export class OptionRequest {
   @IsString()
   userId: string;
 
@@ -40,3 +32,9 @@ export class UpdateOptionRequest {
   @IsString()
   optionTitle: string;
 }
+
+export class CreateOptionRequest extends OptionRequest {}
+
+export class UpdateOptionRequest extends OptionRequest {}
+
+export class DeleteOptionRequest extends OptionRequest {}

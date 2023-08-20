@@ -1,7 +1,8 @@
 import {
-  CreateOptionRequest,
   CreateVoteRequest,
   DeleteVoteRequest,
+  CreateOptionRequest,
+  DeleteOptionRequest,
   UpdateOptionRequest,
 } from "@/dto";
 import { VoteRepository } from "@/repository";
@@ -26,6 +27,12 @@ export const createOption = async (params: CreateOptionRequest) => {
 
 export const updateOption = async (params: UpdateOptionRequest) => {
   const vote = await VoteRepository.updateOptionByUserId(params);
+
+  return vote;
+};
+
+export const deleteOption = async (params: DeleteOptionRequest) => {
+  const vote = await VoteRepository.deleteOptionByTitle(params);
 
   return vote;
 };

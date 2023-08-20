@@ -50,11 +50,7 @@ export const deleteUser: RequestHandler = async (
   const payload: UserPayload = res.locals.payload;
   const user = await UserRepository.findById(payload.id);
 
-  const result = await UserService.deleteUser(user.userId);
-
-  if (result.deletedCount === 0) {
-    throw new Error("Delete Fail");
-  }
+  await UserService.deleteUser(user.userId);
 
   return "Delete User";
 };

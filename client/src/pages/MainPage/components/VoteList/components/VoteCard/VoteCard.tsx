@@ -33,7 +33,14 @@ const VoteCard: React.FC<VoteCardProps> = ({ vote, onFetch }) => {
 
   const handleOk = async (values: string) => {
     try {
+      const find = vote.optionList?.find((option) => option.title === values);
+
+      if (find) {
+        throw new Error();
+      }
+
       const params: CreateOptionRequest = {
+        userId: user?.userId as string,
         voteTitle: vote.title,
         optionTitle: values,
       };
